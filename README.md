@@ -1,4 +1,4 @@
-# Trello Frontend - Task Management Application
+# Task Flow Frontend - Task Management Application
 
 A modern task management application built with React, inspired by Trello. Features include authentication (OAuth & email), workspaces, boards, and task management.
 
@@ -39,7 +39,7 @@ A modern task management application built with React, inspired by Trello. Featu
 
 1. **Clone the repository**
    ```bash
-   cd TrelloFrontEnd
+   cd task-flow-frontend
    ```
 
 2. **Install dependencies**
@@ -149,7 +149,7 @@ npm run lint     # Run ESLint
 
 ## 🔗 API Integration
 
-The app integrates with the Trello Backend API. See `Trello_Backend.postman_collection.json` for complete API documentation.
+The app integrates with the Task Flow Backend API. See `Trello_Backend.postman_collection.json` for complete API documentation.
 
 **Base URL:** `http://localhost:3000/api/v1`
 
