@@ -75,8 +75,15 @@
 
 .boards-section {
   padding: 32px 24px;
-  max-width: 1400px;
+  max-width: 100%;
+  width: 50%;
   margin: 0 auto;
+}
+
+@media (max-width: 1200px) {
+  .boards-section {
+    width: 100%;
+  }
 }
 
 .section-header {

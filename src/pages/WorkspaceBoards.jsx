@@ -55,7 +55,13 @@ const WorkspaceBoards = () => {
   };
 
   const handleBoardClick = (boardId) => {
-    navigate(`/board/${boardId}`);
+    console.log('WorkspaceBoards - handleBoardClick:', { workspaceId, boardId });
+    if (!workspaceId || !boardId) {
+      console.error('Missing workspaceId or boardId:', { workspaceId, boardId });
+      return;
+    }
+    console.log('Navigating to:', `/workspace/${workspaceId}/board/${boardId}`);
+    navigate(`/workspace/${workspaceId}/board/${boardId}`);
   };
 
   const handleLogout = async () => {
@@ -120,28 +126,32 @@ const WorkspaceBoards = () => {
         </div>
 
         <div className="boards-grid">
-          {boards.map((board) => (
-            <div
-              key={board._id}
-              className="board-card"
-              onClick={() => handleBoardClick(board._id)}
-            >
-              <div className="board-preview" style={{ background: board.backgroundColor || '#0079BF' }}>
-                <div className="board-overlay"></div>
-                {board.isFavorite && (
-                  <div className="board-favorite">
-                    <Star size={16} fill="#fbbf24" color="#fbbf24" />
-                  </div>
-                )}
-                <div className="board-info">
-                  <h3 className="board-name">{board.name}</h3>
-                  {board.description && (
-                    <p className="board-description">{board.description}</p>
+          {boards.map((board) => {
+            const boardId = board._id || board.id;
+            console.log('WorkspaceBoards - Rendering board:', { boardId, board });
+            return (
+              <div
+                key={boardId}
+                className="board-card"
+                onClick={() => handleBoardClick(boardId)}
+              >
+                <div className="board-preview" style={{ background: board.backgroundColor || '#0079BF' }}>
+                  <div className="board-overlay"></div>
+                  {board.isFavorite && (
+                    <div className="board-favorite">
+                      <Star size={16} fill="#fbbf24" color="#fbbf24" />
+                    </div>
                   )}
+                  <div className="board-info">
+                    <h3 className="board-name">{board.name}</h3>
+                    {board.description && (
+                      <p className="board-description">{board.description}</p>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
 
           {/* Create New Board Card */}
           <div className="board-card create-board-card" onClick={() => setIsCreateModalOpen(true)}>

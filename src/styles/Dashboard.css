@@ -10,11 +10,19 @@
 }
 
 .header-content {
-  max-width: 1400px;
+  max-width: 100%;
+  width: 50%;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+@media (max-width: 1200px) {
+  .header-content {
+    width: 100%;
+    padding: 0 24px;
+  }
 }
 
 .dashboard-header h1 {
@@ -82,9 +90,16 @@
 }
 
 .dashboard-main {
-  max-width: 1400px;
+  max-width: 100%;
+  width: 50%;
   margin: 0 auto;
   padding: 32px 24px;
+}
+
+@media (max-width: 1200px) {
+  .dashboard-main {
+    width: 100%;
+  }
 }
 
 .workspaces-section {

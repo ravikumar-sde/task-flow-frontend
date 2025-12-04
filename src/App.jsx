@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import WorkspaceBoards from './pages/WorkspaceBoards';
+import Board from './pages/Board';
 import JoinWorkspace from './pages/JoinWorkspace';
 import OAuthCallback from './pages/OAuthCallback';
 
@@ -29,6 +30,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <WorkspaceBoards />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/workspace/:workspaceId/board/:boardId"
+            element={
+              <ProtectedRoute>
+                <Board />
               </ProtectedRoute>
             }
           />

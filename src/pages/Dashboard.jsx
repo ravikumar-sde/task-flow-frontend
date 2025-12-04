@@ -88,10 +88,14 @@ const Dashboard = () => {
     }
   };
 
-  const handleBoardClick = (boardId) => {
-    console.log('Navigating to board:', boardId);
-    // TODO: Navigate to board detail page
-    // navigate(`/board/${boardId}`);
+  const handleBoardClick = (workspaceId, boardId) => {
+    console.log('handleBoardClick called with:', { workspaceId, boardId });
+    if (!workspaceId || !boardId) {
+      console.error('Missing workspaceId or boardId:', { workspaceId, boardId });
+      return;
+    }
+    console.log('Navigating to:', `/workspace/${workspaceId}/board/${boardId}`);
+    navigate(`/workspace/${workspaceId}/board/${boardId}`);
   };
 
   const handleWorkspaceClick = (workspaceId) => {
@@ -200,17 +204,21 @@ const Dashboard = () => {
                     </div>
 
                     <div className="workspace-boards-grid">
-                      {boards.map((board) => (
-                        <div
-                          key={board._id || board.id}
-                          className="board-card-mini"
-                          style={{ backgroundColor: board.backgroundColor || '#0079BF' }}
-                          onClick={() => handleBoardClick(board._id || board.id)}
-                        >
-                          <div className="board-card-overlay"></div>
-                          <h4 className="board-card-title">{board.name}</h4>
-                        </div>
-                      ))}
+                      {boards.map((board) => {
+                        const boardId = board._id || board.id;
+                        console.log('Rendering board:', { boardId, workspaceId, board });
+                        return (
+                          <div
+                            key={boardId}
+                            className="board-card-mini"
+                            style={{ backgroundColor: board.backgroundColor || '#0079BF' }}
+                            onClick={() => handleBoardClick(workspaceId, boardId)}
+                          >
+                            <div className="board-card-overlay"></div>
+                            <h4 className="board-card-title">{board.name}</h4>
+                          </div>
+                        );
+                      })}
 
                       <div
                         className="board-card-mini create-board-card"
