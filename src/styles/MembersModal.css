@@ -1,0 +1,248 @@
+/* Members Modal Specific Styles */
+.members-modal {
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Invite Section */
+.invite-section {
+  background: #282e33;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+  border: 1px solid #2c333a;
+}
+
+.invite-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.invite-header svg {
+  color: #667eea;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.invite-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: #ffffff;
+}
+
+.create-link-btn {
+  background: transparent;
+  color: #667eea;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.create-link-btn:hover {
+  color: #7c8ef7;
+}
+
+.create-link-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.invite-link-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: #1d2125;
+  border: 1px solid #3d444b;
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.invite-link-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #9fadbc;
+  font-size: 13px;
+  padding: 8px 12px;
+  outline: none;
+}
+
+.copy-link-btn {
+  background: #667eea;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  min-width: 40px;
+}
+
+.copy-link-btn:hover {
+  background: #7c8ef7;
+}
+
+.copy-link-btn:active {
+  transform: scale(0.95);
+}
+
+/* Members Section */
+.members-section {
+  margin-top: 24px;
+}
+
+.members-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #2c333a;
+}
+
+.members-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  color: #ffffff;
+}
+
+.members-count {
+  background: #3d444b;
+  color: #9fadbc;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.members-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.member-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #282e33;
+  border-radius: 8px;
+  border: 1px solid #2c333a;
+  transition: all 0.2s;
+}
+
+.member-item:hover {
+  background: #2c333a;
+  border-color: #3d444b;
+}
+
+.member-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.member-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.member-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.you-badge {
+  font-size: 12px;
+  font-weight: 400;
+  color: #9fadbc;
+}
+
+.member-email {
+  font-size: 12px;
+  color: #9fadbc;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.role-badge {
+  color: #9fadbc;
+  font-size: 12px;
+}
+
+.member-actions {
+  flex-shrink: 0;
+}
+
+.role-select {
+  background: #1d2125;
+  color: #9fadbc;
+  border: 1px solid #3d444b;
+  border-radius: 6px;
+  padding: 8px 32px 8px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239fadbc' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.role-select:hover:not(:disabled) {
+  background-color: #282e33;
+  border-color: #667eea;
+}
+
+.role-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.loading-state {
+  text-align: center;
+  padding: 32px;
+  color: #9fadbc;
+  font-size: 14px;
+}
+
+.error-message {
+  background: rgba(245, 101, 101, 0.1);
+  border: 1px solid #f56565;
+  color: #fc8181;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
