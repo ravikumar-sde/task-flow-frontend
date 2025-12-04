@@ -246,7 +246,7 @@ const Board = () => {
                                   handleCancelEdit();
                                 }
                               }}
-                              onBlur={(e) => {
+                              onBlur={() => {
                                 // Only update if we're still in edit mode
                                 if (editingListId === (list._id || list.id)) {
                                   handleUpdateList(list._id || list.id);
