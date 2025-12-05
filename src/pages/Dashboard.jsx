@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Users, Settings, Loader2, LogOut, LayoutDashboard } from 'lucide-react';
+import { Plus, Users, Settings, Loader2, LogOut, LayoutDashboard, Edit2, Trash2, ChevronDown } from 'lucide-react';
 import workspaceService from '../services/workspaceService';
 import boardService from '../services/boardService';
 import CreateWorkspaceModal from '../components/CreateWorkspaceModal';
 import CreateBoardModal from '../components/CreateBoardModal';
 import WorkspaceMembersModal from '../components/WorkspaceMembersModal';
+import EditWorkspaceModal from '../components/EditWorkspaceModal';
 import '../styles/Dashboard.css';
 
 const Dashboard = () => {
@@ -18,11 +19,31 @@ const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showMembersModal, setShowMembersModal] = useState(false);
   const [showCreateBoardModal, setShowCreateBoardModal] = useState(false);
+  const [showEditWorkspaceModal, setShowEditWorkspaceModal] = useState(false);
   const [selectedWorkspace, setSelectedWorkspace] = useState(null);
+  const [settingsDropdownOpen, setSettingsDropdownOpen] = useState(null);
+  const settingsDropdownRef = useRef(null);
 
   useEffect(() => {
     fetchWorkspaces();
   }, []);
+
+  // Handle click outside to close settings dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (settingsDropdownRef.current && !settingsDropdownRef.current.contains(event.target)) {
+        setSettingsDropdownOpen(null);
+      }
+    };
+
+    if (settingsDropdownOpen !== null) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [settingsDropdownOpen]);
 
   const fetchWorkspaces = async () => {
     try {
@@ -112,6 +133,49 @@ const Dashboard = () => {
     navigate('/login');
   };
 
+  const handleUpdateWorkspace = async (workspaceData) => {
+    try {
+      const workspaceId = selectedWorkspace._id || selectedWorkspace.id;
+      await workspaceService.updateWorkspace(workspaceId, workspaceData);
+      // Refresh workspaces list
+      await fetchWorkspaces();
+      setShowEditWorkspaceModal(false);
+      setSelectedWorkspace(null);
+    } catch (error) {
+      console.error('Failed to update workspace:', error);
+      throw error;
+    }
+  };
+
+  const handleDeleteWorkspace = async (workspace) => {
+    const workspaceId = workspace._id || workspace.id;
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete "${workspace.name}"? This action cannot be undone and will delete all boards and cards in this workspace.`
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      await workspaceService.deleteWorkspace(workspaceId);
+      // Refresh workspaces list
+      await fetchWorkspaces();
+      setSettingsDropdownOpen(null);
+    } catch (error) {
+      console.error('Failed to delete workspace:', error);
+      alert('Failed to delete workspace. Please try again.');
+    }
+  };
+
+  const handleEditWorkspace = (workspace) => {
+    setSelectedWorkspace(workspace);
+    setShowEditWorkspaceModal(true);
+    setSettingsDropdownOpen(null);
+  };
+
+  const toggleSettingsDropdown = (workspaceId) => {
+    setSettingsDropdownOpen(settingsDropdownOpen === workspaceId ? null : workspaceId);
+  };
+
   // Generate random gradient for workspace cards
   const getWorkspaceGradient = (index) => {
     const gradients = [
@@ -196,10 +260,34 @@ const Dashboard = () => {
                           <Users size={16} />
                           <span>Members</span>
                         </button>
-                        <button className="workspace-header-btn">
-                          <Settings size={16} />
-                          <span>Settings</span>
-                        </button>
+                        <div className="settings-dropdown-wrapper" ref={settingsDropdownOpen === workspaceId ? settingsDropdownRef : null}>
+                          <button
+                            className="workspace-header-btn"
+                            onClick={() => toggleSettingsDropdown(workspaceId)}
+                          >
+                            <Settings size={16} />
+                            <span>Settings</span>
+                            <ChevronDown size={14} />
+                          </button>
+                          {settingsDropdownOpen === workspaceId && (
+                            <div className="settings-dropdown">
+                              <button
+                                className="settings-dropdown-item"
+                                onClick={() => handleEditWorkspace(workspace)}
+                              >
+                                <Edit2 size={14} />
+                                <span>Edit Workspace</span>
+                              </button>
+                              <button
+                                className="settings-dropdown-item delete"
+                                onClick={() => handleDeleteWorkspace(workspace)}
+                              >
+                                <Trash2 size={14} />
+                                <span>Delete Workspace</span>
+                              </button>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
 
@@ -244,6 +332,16 @@ const Dashboard = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onCreateWorkspace={handleCreateWorkspace}
+      />
+
+      <EditWorkspaceModal
+        isOpen={showEditWorkspaceModal}
+        onClose={() => {
+          setShowEditWorkspaceModal(false);
+          setSelectedWorkspace(null);
+        }}
+        onUpdateWorkspace={handleUpdateWorkspace}
+        workspace={selectedWorkspace}
       />
 
       <CreateBoardModal

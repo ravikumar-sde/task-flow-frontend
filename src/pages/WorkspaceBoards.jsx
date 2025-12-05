@@ -84,35 +84,37 @@ const WorkspaceBoards = () => {
     <div className="workspace-boards-container">
       {/* Header */}
       <header className="workspace-header">
-        <div className="workspace-info">
-          <button className="back-button" onClick={() => navigate('/dashboard')}>
-            <ArrowLeft size={20} />
-          </button>
-          <div className="workspace-avatar" style={{ background: workspace?.isPrivate ? '#667eea' : '#519839' }}>
-            {workspace?.name?.charAt(0).toUpperCase()}
+        <div className="workspace-header-content">
+          <div className="workspace-info">
+            <button className="back-button" onClick={() => navigate('/dashboard')}>
+              <ArrowLeft size={20} />
+            </button>
+            <div className="workspace-avatar" style={{ background: workspace?.isPrivate ? '#667eea' : '#519839' }}>
+              {workspace?.name?.charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <h1 className="workspace-name">
+                {workspace?.name}
+                {workspace?.isPrivate && <Lock size={16} className="privacy-icon" />}
+              </h1>
+              {workspace?.description && (
+                <p className="workspace-description">{workspace.description}</p>
+              )}
+            </div>
           </div>
-          <div>
-            <h1 className="workspace-name">
-              {workspace?.name}
-              {workspace?.isPrivate && <Lock size={16} className="privacy-icon" />}
-            </h1>
-            {workspace?.description && (
-              <p className="workspace-description">{workspace.description}</p>
-            )}
+          <div className="workspace-actions">
+            <button className="btn btn-secondary" onClick={() => setShowMembersModal(true)}>
+              <Users size={16} />
+              Members
+            </button>
+            <button className="btn btn-secondary">
+              <Settings size={16} />
+              Settings
+            </button>
+            <button className="btn btn-secondary" onClick={handleLogout}>
+              Logout
+            </button>
           </div>
-        </div>
-        <div className="workspace-actions">
-          <button className="btn btn-secondary" onClick={() => setShowMembersModal(true)}>
-            <Users size={16} />
-            Members
-          </button>
-          <button className="btn btn-secondary">
-            <Settings size={16} />
-            Settings
-          </button>
-          <button className="btn btn-secondary" onClick={handleLogout}>
-            Logout
-          </button>
         </div>
       </header>
 
