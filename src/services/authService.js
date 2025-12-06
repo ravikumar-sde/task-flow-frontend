@@ -11,10 +11,31 @@ const authService = {
       password,
     });
 
-    if (response.data.data.token) {
+    // Note: Token is not stored here anymore, user needs to verify OTP first
+    return response.data;
+  },
+
+  // Verify email with verification code
+  verifyEmail: async (email, code) => {
+    const response = await api.post('/auth/verify-email', {
+      email,
+      code,
+    });
+
+    // Store tokens after successful email verification
+    if (response.data.data?.token) {
       localStorage.setItem('token', response.data.data.token);
       localStorage.setItem('refreshToken', response.data.data.refreshToken);
     }
+
+    return response.data;
+  },
+
+  // Resend verification code
+  resendVerification: async (email) => {
+    const response = await api.post('/auth/resend-verification', {
+      email,
+    });
 
     return response.data;
   },

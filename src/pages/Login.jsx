@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import authService from '../services/authService';
-import { Mail, Lock, AlertCircle, Loader2 } from 'lucide-react';
+import { Mail, Lock, AlertCircle, Loader2, CheckCircle } from 'lucide-react';
 import '../styles/Auth.css';
 
 const Login = () => {
@@ -13,6 +13,9 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
+
+  const successMessage = location.state?.message;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +34,28 @@ const Login = () => {
         navigate('/dashboard');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to login. Please try again.');
+      const errorMessage = err.response?.data?.message || 'Failed to login. Please try again.';
+
+      // If error is about email verification, generate new OTP and redirect
+      if (errorMessage.toLowerCase().includes('verify your email')) {
+        try {
+          // Call resend verification API to generate new OTP
+          await authService.resendVerification(email);
+
+          // Show message that OTP has been sent
+          setError('Verification code sent to your email. Redirecting...');
+
+          // Redirect to verification page after 2 seconds
+          setTimeout(() => {
+            navigate('/verify-otp', { state: { email } });
+          }, 2000);
+        } catch (err) {
+          console.error('Failed to resend verification code:', err);
+          setError('Failed to send verification code. Please try again.');
+        }
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setLoading(false);
     }
@@ -53,6 +77,13 @@ const Login = () => {
           <p className="auth-subtitle">Sign in to continue to your workspace</p>
         </div>
 
+        {successMessage && (
+          <div className="success-message">
+            <CheckCircle size={18} />
+            <span>{successMessage}</span>
+          </div>
+        )}
+
         {error && (
           <div className="error-message">
             <AlertCircle size={18} />
@@ -64,7 +95,7 @@ const Login = () => {
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <div className="input-wrapper">
-              <Mail className="input-icon" size={20} />
+              {/* <Mail className="input-icon" size={20} /> */}
               <input
                 type="email"
                 id="email"
@@ -80,7 +111,7 @@ const Login = () => {
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <div className="input-wrapper">
-              <Lock className="input-icon" size={20} />
+              {/* <Lock className="input-icon" size={20} /> */}
               <input
                 type="password"
                 id="password"

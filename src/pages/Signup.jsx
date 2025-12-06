@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { Link, useNavigate } from 'react-router-dom';
 import authService from '../services/authService';
 import { Mail, Lock, User, AlertCircle, Loader2 } from 'lucide-react';
 import '../styles/Auth.css';
@@ -12,9 +11,7 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signup } = useAuth();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,16 +30,11 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      await signup(name, email, password);
+      // Call signup API (which now sends OTP instead of logging in)
+      await authService.signup(name, email, password);
 
-      // Check if there's a redirect URL in query params
-      const redirectUrl = searchParams.get('redirect');
-      if (redirectUrl) {
-        console.log('Redirecting to:', redirectUrl);
-        navigate(redirectUrl);
-      } else {
-        navigate('/dashboard');
-      }
+      // Redirect to OTP verification page with email
+      navigate('/verify-otp', { state: { email } });
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to create account. Please try again.');
     } finally {
@@ -77,7 +69,7 @@ const Signup = () => {
           <div className="form-group">
             <label htmlFor="name">Full Name</label>
             <div className="input-wrapper">
-              <User className="input-icon" size={20} />
+              {/* <User className="input-icon" size={20} /> */}
               <input
                 type="text"
                 id="name"
@@ -93,7 +85,7 @@ const Signup = () => {
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <div className="input-wrapper">
-              <Mail className="input-icon" size={20} />
+              {/* <Mail className="input-icon" size={20} /> */}
               <input
                 type="email"
                 id="email"
@@ -109,7 +101,7 @@ const Signup = () => {
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <div className="input-wrapper">
-              <Lock className="input-icon" size={20} />
+              {/* <Lock className="input-icon" size={20} /> */}
               <input
                 type="password"
                 id="password"
@@ -125,7 +117,7 @@ const Signup = () => {
           <div className="form-group">
             <label htmlFor="confirmPassword">Confirm Password</label>
             <div className="input-wrapper">
-              <Lock className="input-icon" size={20} />
+              {/* <Lock className="input-icon" size={20} /> */}
               <input
                 type="password"
                 id="confirmPassword"

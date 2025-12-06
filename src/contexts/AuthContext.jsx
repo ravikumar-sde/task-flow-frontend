@@ -36,13 +36,6 @@ export const AuthProvider = ({ children }) => {
     return response;
   };
 
-  const signup = async (name, email, password) => {
-    const response = await authService.signup(name, email, password);
-    setUser(response.data.user);
-    setIsAuthenticated(true);
-    return response;
-  };
-
   const logout = async () => {
     await authService.logout();
     setUser(null);
@@ -54,9 +47,9 @@ export const AuthProvider = ({ children }) => {
     loading,
     isAuthenticated,
     login,
-    signup,
     logout,
     setUser,
+    setIsAuthenticated,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
