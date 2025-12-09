@@ -11,31 +11,17 @@ const authService = {
       password,
     });
 
-    // Note: Token is not stored here anymore, user needs to verify OTP first
-    return response.data;
-  },
+    console.log('🔐 Signup Response:', response.data);
+    console.log('🔐 Token from response:', response.data.data?.token);
 
-  // Verify email with verification code
-  verifyEmail: async (email, code) => {
-    const response = await api.post('/auth/verify-email', {
-      email,
-      code,
-    });
-
-    // Store tokens after successful email verification
-    if (response.data.data?.token) {
+    if (response.data.data.token) {
       localStorage.setItem('token', response.data.data.token);
       localStorage.setItem('refreshToken', response.data.data.refreshToken);
+      console.log('✅ Token stored in localStorage');
+      console.log('✅ Token value:', localStorage.getItem('token'));
+    } else {
+      console.error('❌ No token in signup response!');
     }
-
-    return response.data;
-  },
-
-  // Resend verification code
-  resendVerification: async (email) => {
-    const response = await api.post('/auth/resend-verification', {
-      email,
-    });
 
     return response.data;
   },
@@ -47,9 +33,16 @@ const authService = {
       password,
     });
 
+    console.log('🔐 Login Response:', response.data);
+    console.log('🔐 Token from response:', response.data.data?.token);
+
     if (response.data.data.token) {
       localStorage.setItem('token', response.data.data.token);
       localStorage.setItem('refreshToken', response.data.data.refreshToken);
+      console.log('✅ Token stored in localStorage');
+      console.log('✅ Token value:', localStorage.getItem('token'));
+    } else {
+      console.error('❌ No token in login response!');
     }
 
     return response.data;
@@ -102,6 +95,33 @@ const authService = {
   // Get token
   getToken: () => {
     return localStorage.getItem('token');
+  },
+
+  // Forgot Password - Request reset code
+  forgotPassword: async (email) => {
+    const response = await api.post('/auth/forgot-password', {
+      email,
+    });
+    return response.data;
+  },
+
+  // Verify reset code
+  verifyResetCode: async (email, code) => {
+    const response = await api.post('/auth/verify-reset-code', {
+      email,
+      code,
+    });
+    return response.data;
+  },
+
+  // Reset password with code
+  resetPassword: async (email, code, newPassword) => {
+    const response = await api.post('/auth/reset-password', {
+      email,
+      code,
+      newPassword,
+    });
+    return response.data;
   },
 };
 

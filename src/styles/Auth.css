@@ -68,7 +68,7 @@
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
 
 .form-group label {
@@ -218,8 +218,8 @@
   color: #5568d3;
 }
 
-/* OTP Verification Styles */
-.otp-icon {
+/* Reset Password & OTP Styles */
+.reset-icon {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
@@ -270,7 +270,7 @@
   opacity: 0.6;
 }
 
-.otp-footer {
+.reset-footer {
   margin-top: 24px;
   text-align: center;
 }
@@ -301,11 +301,6 @@
 .resend-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-}
-
-.timer-text {
-  color: #6b7a8a;
-  font-weight: 600;
 }
 
 /* Success message styles */

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { Plus, MoreHorizontal, X, ArrowLeft, Star } from 'lucide-react';
+import { Plus, MoreHorizontal, X, ArrowLeft, Settings, Trash2, Edit2 } from 'lucide-react';
 import boardService from '../services/boardService';
 import listService from '../services/listService';
 import workspaceService from '../services/workspaceService';
@@ -9,6 +9,8 @@ import cardService from '../services/cardService';
 import CardModal from '../components/CardModal';
 import Card from '../components/Card';
 import FilterBar from '../components/FilterBar';
+import NotificationModal from '../components/NotificationModal';
+import { useNotification } from '../hooks/useNotification';
 import '../styles/Board.css';
 
 const Board = () => {
@@ -38,6 +40,16 @@ const Board = () => {
     dueDate: null,
     search: ''
   });
+  const [showBoardSettings, setShowBoardSettings] = useState(false);
+  const [editingBoardName, setEditingBoardName] = useState(false);
+  const [newBoardName, setNewBoardName] = useState('');
+
+  const {
+    notification,
+    closeNotification,
+    showError,
+    showConfirm
+  } = useNotification();
 
   console.log('Board component - URL params:', { workspaceId, boardId });
 
@@ -48,14 +60,14 @@ const Board = () => {
     } else {
       console.error('Board component - boardId is undefined!');
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [boardId]);
 
   useEffect(() => {
     if (workspaceId) {
       fetchWorkspaceData();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workspaceId]);
 
   const fetchWorkspaceData = async () => {
@@ -77,11 +89,14 @@ const Board = () => {
       if (openMenuId) {
         setOpenMenuId(null);
       }
+      if (showBoardSettings) {
+        setShowBoardSettings(false);
+      }
     };
 
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
-  }, [openMenuId]);
+  }, [openMenuId, showBoardSettings]);
 
   const fetchBoardData = async () => {
     try {
@@ -139,7 +154,7 @@ const Board = () => {
         name: newListTitle,
         position: lists.length
       });
-      
+
       console.log('Created list:', response);
       setLists([...lists, response.data || response]);
       setNewListTitle('');
@@ -214,16 +229,25 @@ const Board = () => {
     }
   };
 
-  const handleDeleteList = async (listId) => {
-    if (!window.confirm('Are you sure you want to delete this list?')) return;
-
-    try {
-      await listService.deleteList(listId);
-      setLists(lists.filter(list => (list._id || list.id) !== listId));
-      setOpenMenuId(null);
-    } catch (error) {
-      console.error('Failed to delete list:', error);
-    }
+  const handleDeleteList = (listId) => {
+    const listName = lists.find(l => (l._id || l.id) === listId)?.name || 'this list';
+    showConfirm(
+      `Are you sure you want to delete "${listName}"? All cards in this list will be deleted.`,
+      async () => {
+        try {
+          await listService.deleteList(listId);
+          setLists(lists.filter(list => (list._id || list.id) !== listId));
+          setOpenMenuId(null);
+        } catch (error) {
+          console.error('Failed to delete list:', error);
+          const errorMessage = error.response?.data?.message || error.message || 'Failed to delete list. Please try again.';
+          showError(errorMessage);
+        }
+      },
+      'Delete List',
+      'Delete',
+      'Cancel'
+    );
   };
 
   const handleEditList = (list) => {
@@ -356,6 +380,50 @@ const Board = () => {
     });
   };
 
+  const handleUpdateBoardName = async () => {
+    if (!newBoardName.trim() || newBoardName === board.name) {
+      setEditingBoardName(false);
+      return;
+    }
+
+    try {
+      const response = await boardService.updateBoard(boardId, { name: newBoardName });
+      setBoard({ ...board, name: newBoardName });
+      setEditingBoardName(false);
+      console.log('✅ Board name updated:', response);
+    } catch (error) {
+      console.error('Failed to update board name:', error);
+      const errorMessage = error.response?.data?.message || error.message || 'Failed to update board name. Please try again.';
+      showError(errorMessage);
+      setEditingBoardName(false);
+    }
+  };
+
+  const handleDeleteBoard = () => {
+    showConfirm(
+      `Are you sure you want to delete "${board.name}"? This action cannot be undone.`,
+      async () => {
+        try {
+          await boardService.deleteBoard(boardId);
+          console.log('✅ Board deleted successfully');
+          navigate(workspaceId ? `/workspace/${workspaceId}` : '/dashboard');
+        } catch (error) {
+          console.error('Failed to delete board:', error);
+          const errorMessage = error.response?.data?.message || error.message || 'Failed to delete board. Please try again.';
+          showError(errorMessage);
+        }
+      },
+      'Delete Board',
+      'Delete',
+      'Cancel'
+    );
+  };
+
+  const handleOpenBoardSettings = () => {
+    setNewBoardName(board.name);
+    setShowBoardSettings(!showBoardSettings);
+  };
+
   // Filter cards based on active filters
   const filterCards = (cardsToFilter) => {
     return cardsToFilter.filter(card => {
@@ -456,20 +524,72 @@ const Board = () => {
             <ArrowLeft size={20} />
           </button>
           <div className="board-title-section">
-            <h1 className="board-title">{board.name}</h1>
+            {editingBoardName ? (
+              <div className="board-title-edit">
+                <input
+                  type="text"
+                  className="board-title-input"
+                  value={newBoardName}
+                  onChange={(e) => setNewBoardName(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleUpdateBoardName();
+                    } else if (e.key === 'Escape') {
+                      setEditingBoardName(false);
+                    }
+                  }}
+                  onBlur={handleUpdateBoardName}
+                  autoFocus
+                />
+              </div>
+            ) : (
+              <h1 className="board-title">{board.name}</h1>
+            )}
             {workspace && (
               <span className="workspace-name-badge">{workspace.name}</span>
             )}
           </div>
         </div>
         <div className="board-header-right">
-          <button
-            className="board-header-btn favorite-btn"
-            title="Add to favorites"
-          >
-            <Star size={16} />
-            <span>Favorite</span>
-          </button>
+          <div className="board-settings-wrapper">
+            <button
+              className="board-header-btn settings-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleOpenBoardSettings();
+              }}
+              title="Board settings"
+            >
+              <Settings size={16} />
+              <span>Settings</span>
+            </button>
+            {showBoardSettings && (
+              <div className="board-settings-dropdown">
+                <button
+                  className="settings-menu-item"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowBoardSettings(false);
+                    setEditingBoardName(true);
+                  }}
+                >
+                  <Edit2 size={14} />
+                  <span>Rename Board</span>
+                </button>
+                <button
+                  className="settings-menu-item delete"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowBoardSettings(false);
+                    handleDeleteBoard();
+                  }}
+                >
+                  <Trash2 size={14} />
+                  <span>Delete Board</span>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -485,209 +605,209 @@ const Board = () => {
 
       <div className="board-content">
         <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="board" direction="horizontal" type="list">
-          {(provided) => (
-            <div
-              className="board-lists"
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {lists.map((list, index) => (
-                <Draggable
-                  key={list._id || list.id}
-                  draggableId={list._id || list.id}
-                  index={index}
-                >
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      className={`board-list ${snapshot.isDragging ? 'dragging' : ''}`}
-                    >
-                      <div className="list-header">
-                        {editingListId === (list._id || list.id) ? (
-                          <div className="list-title-edit">
-                            <input
-                              type="text"
-                              value={editingListName}
-                              onChange={(e) => setEditingListName(e.target.value)}
-                              onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                  e.preventDefault();
-                                  handleUpdateList(list._id || list.id);
-                                } else if (e.key === 'Escape') {
-                                  e.preventDefault();
-                                  handleCancelEdit();
-                                }
-                              }}
-                              onBlur={() => {
-                                // Only update if we're still in edit mode
-                                if (editingListId === (list._id || list.id)) {
-                                  handleUpdateList(list._id || list.id);
-                                }
-                              }}
-                              autoFocus
-                              className="list-title-input"
-                            />
-                          </div>
-                        ) : (
-                          <div className="list-title-wrapper" {...provided.dragHandleProps}>
-                            <h3 className="list-title">{list.name}</h3>
-                          </div>
-                        )}
-                        <div className="list-menu">
-                          <button
-                            className="list-menu-btn"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setOpenMenuId(openMenuId === (list._id || list.id) ? null : (list._id || list.id));
-                            }}
-                          >
-                            <MoreHorizontal size={16} />
-                          </button>
-                          {openMenuId === (list._id || list.id) && (
-                            <div className="list-menu-dropdown">
-                              <button
-                                className="menu-item"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleEditList(list);
+          <Droppable droppableId="board" direction="horizontal" type="list">
+            {(provided) => (
+              <div
+                className="board-lists"
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {lists.map((list, index) => (
+                  <Draggable
+                    key={list._id || list.id}
+                    draggableId={list._id || list.id}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        className={`board-list ${snapshot.isDragging ? 'dragging' : ''}`}
+                      >
+                        <div className="list-header">
+                          {editingListId === (list._id || list.id) ? (
+                            <div className="list-title-edit">
+                              <input
+                                type="text"
+                                value={editingListName}
+                                onChange={(e) => setEditingListName(e.target.value)}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    handleUpdateList(list._id || list.id);
+                                  } else if (e.key === 'Escape') {
+                                    e.preventDefault();
+                                    handleCancelEdit();
+                                  }
                                 }}
-                              >
-                                Edit
-                              </button>
-                              <button
-                                className="menu-item delete"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleDeleteList(list._id || list.id);
+                                onBlur={() => {
+                                  // Only update if we're still in edit mode
+                                  if (editingListId === (list._id || list.id)) {
+                                    handleUpdateList(list._id || list.id);
+                                  }
                                 }}
-                              >
-                                Delete
-                              </button>
+                                autoFocus
+                                className="list-title-input"
+                              />
                             </div>
+                          ) : (
+                            <div className="list-title-wrapper" {...provided.dragHandleProps}>
+                              <h3 className="list-title">{list.name}</h3>
+                            </div>
+                          )}
+                          <div className="list-menu">
+                            <button
+                              className="list-menu-btn"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setOpenMenuId(openMenuId === (list._id || list.id) ? null : (list._id || list.id));
+                              }}
+                            >
+                              <MoreHorizontal size={16} />
+                            </button>
+                            {openMenuId === (list._id || list.id) && (
+                              <div className="list-menu-dropdown">
+                                <button
+                                  className="menu-item"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleEditList(list);
+                                  }}
+                                >
+                                  Edit
+                                </button>
+                                <button
+                                  className="menu-item delete"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeleteList(list._id || list.id);
+                                  }}
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        <Droppable droppableId={list._id || list.id} type="card">
+                          {(provided) => (
+                            <div
+                              className="list-cards"
+                              ref={provided.innerRef}
+                              {...provided.droppableProps}
+                            >
+                              {filterCards(cards[list._id || list.id] || []).map((card, cardIndex) => (
+                                <Draggable
+                                  key={card._id || card.id}
+                                  draggableId={card._id || card.id}
+                                  index={cardIndex}
+                                >
+                                  {(provided, snapshot) => (
+                                    <div
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                      className={snapshot.isDragging ? 'dragging' : ''}
+                                    >
+                                      <Card
+                                        card={card}
+                                        onClick={() => handleCardClick(card, list._id || list.id)}
+                                      />
+                                    </div>
+                                  )}
+                                </Draggable>
+                              ))}
+                              {provided.placeholder}
+                            </div>
+                          )}
+                        </Droppable>
+
+                        <div className="list-footer">
+                          {addingCardToStage === (list._id || list.id) ? (
+                            <form onSubmit={(e) => handleCreateCard(e, list._id || list.id)} className="add-card-form">
+                              <input
+                                type="text"
+                                className="add-card-input"
+                                placeholder="Enter a title or paste a link"
+                                value={newCardTitle}
+                                onChange={(e) => setNewCardTitle(e.target.value)}
+                                autoFocus
+                              />
+                              <div className="add-card-actions">
+                                <button type="submit" className="btn-add-card" disabled={!newCardTitle.trim() || creatingCard}>
+                                  {creatingCard ? 'Adding...' : 'Add card'}
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn-cancel-card"
+                                  onClick={() => setAddingCardToStage(null)}
+                                >
+                                  <X size={20} />
+                                </button>
+                              </div>
+                            </form>
+                          ) : (
+                            <button className="add-card-btn" onClick={() => handleAddCard(list._id || list.id)}>
+                              <Plus size={16} />
+                              <span>Add a card</span>
+                            </button>
                           )}
                         </div>
                       </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
 
-                      <Droppable droppableId={list._id || list.id} type="card">
-                        {(provided) => (
-                          <div
-                            className="list-cards"
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}
-                          >
-                            {filterCards(cards[list._id || list.id] || []).map((card, cardIndex) => (
-                              <Draggable
-                                key={card._id || card.id}
-                                draggableId={card._id || card.id}
-                                index={cardIndex}
-                              >
-                                {(provided, snapshot) => (
-                                  <div
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
-                                    className={snapshot.isDragging ? 'dragging' : ''}
-                                  >
-                                    <Card
-                                      card={card}
-                                      onClick={() => handleCardClick(card, list._id || list.id)}
-                                    />
-                                  </div>
-                                )}
-                              </Draggable>
-                            ))}
-                            {provided.placeholder}
-                          </div>
-                        )}
-                      </Droppable>
-
-                      <div className="list-footer">
-                        {addingCardToStage === (list._id || list.id) ? (
-                          <form onSubmit={(e) => handleCreateCard(e, list._id || list.id)} className="add-card-form">
-                            <input
-                              type="text"
-                              className="add-card-input"
-                              placeholder="Enter a title or paste a link"
-                              value={newCardTitle}
-                              onChange={(e) => setNewCardTitle(e.target.value)}
-                              autoFocus
-                            />
-                            <div className="add-card-actions">
-                              <button type="submit" className="btn-add-card" disabled={!newCardTitle.trim() || creatingCard}>
-                                {creatingCard ? 'Adding...' : 'Add card'}
-                              </button>
-                              <button
-                                type="button"
-                                className="btn-cancel-card"
-                                onClick={() => setAddingCardToStage(null)}
-                              >
-                                <X size={20} />
-                              </button>
-                            </div>
-                          </form>
-                        ) : (
-                          <button className="add-card-btn" onClick={() => handleAddCard(list._id || list.id)}>
-                            <Plus size={16} />
-                            <span>Add a card</span>
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-
-              {/* Add List Button */}
-              {showAddList ? (
-                <div className="board-list add-list-form">
-                  <form onSubmit={handleCreateList}>
-                    <input
-                      type="text"
-                      className="add-list-input"
-                      placeholder="Enter list title..."
-                      value={newListTitle}
-                      onChange={(e) => setNewListTitle(e.target.value)}
-                      autoFocus
-                      disabled={creatingList}
-                    />
-                    <div className="add-list-actions">
-                      <button
-                        type="submit"
-                        className="btn-add-list"
-                        disabled={creatingList || !newListTitle.trim()}
-                      >
-                        Add list
-                      </button>
-                      <button
-                        type="button"
-                        className="btn-cancel-list"
-                        onClick={() => {
-                          setShowAddList(false);
-                          setNewListTitle('');
-                        }}
+                {/* Add List Button */}
+                {showAddList ? (
+                  <div className="board-list add-list-form">
+                    <form onSubmit={handleCreateList}>
+                      <input
+                        type="text"
+                        className="add-list-input"
+                        placeholder="Enter list title..."
+                        value={newListTitle}
+                        onChange={(e) => setNewListTitle(e.target.value)}
+                        autoFocus
                         disabled={creatingList}
-                      >
-                        <X size={20} />
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              ) : (
-                <button
-                  className="board-list add-list-btn"
-                  onClick={() => setShowAddList(true)}
-                >
-                  <Plus size={20} />
-                  <span>Add another list</span>
-                </button>
-              )}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+                      />
+                      <div className="add-list-actions">
+                        <button
+                          type="submit"
+                          className="btn-add-list"
+                          disabled={creatingList || !newListTitle.trim()}
+                        >
+                          Add list
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-cancel-list"
+                          onClick={() => {
+                            setShowAddList(false);
+                            setNewListTitle('');
+                          }}
+                          disabled={creatingList}
+                        >
+                          <X size={20} />
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                ) : (
+                  <button
+                    className="board-list add-list-btn"
+                    onClick={() => setShowAddList(true)}
+                  >
+                    <Plus size={20} />
+                    <span>Add another list</span>
+                  </button>
+                )}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
 
       {/* Card Modal */}
@@ -706,6 +826,19 @@ const Board = () => {
           onDelete={handleCardDelete}
         />
       )}
+
+      {/* Notification Modal */}
+      <NotificationModal
+        isOpen={notification.isOpen}
+        onClose={closeNotification}
+        onConfirm={notification.onConfirm}
+        type={notification.type}
+        title={notification.title}
+        message={notification.message}
+        confirmText={notification.confirmText}
+        cancelText={notification.cancelText}
+        showCancel={notification.showCancel}
+      />
     </div>
   );
 };

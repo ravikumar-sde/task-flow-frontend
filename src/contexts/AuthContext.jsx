@@ -36,10 +36,25 @@ export const AuthProvider = ({ children }) => {
     return response;
   };
 
+  const signup = async (name, email, password) => {
+    const response = await authService.signup(name, email, password);
+    setUser(response.data.user);
+    setIsAuthenticated(true);
+    return response;
+  };
+
   const logout = async () => {
     await authService.logout();
     setUser(null);
     setIsAuthenticated(false);
+  };
+
+  // Custom setUser that also updates isAuthenticated
+  const updateUser = (userData) => {
+    setUser(userData);
+    if (userData) {
+      setIsAuthenticated(true);
+    }
   };
 
   const value = {
@@ -47,9 +62,9 @@ export const AuthProvider = ({ children }) => {
     loading,
     isAuthenticated,
     login,
+    signup,
     logout,
-    setUser,
-    setIsAuthenticated,
+    setUser: updateUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

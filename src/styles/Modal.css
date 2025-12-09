@@ -57,6 +57,10 @@
   color: #ffffff;
 }
 
+.modal-body {
+  padding: 24px;
+}
+
 .modal-content form {
   padding: 24px;
 }
@@ -67,7 +71,7 @@
 
 .form-group label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 2px;
   font-weight: 500;
   color: #b6c2cf;
   font-size: 14px;

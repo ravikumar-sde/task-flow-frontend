@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import authService from '../services/authService';
-import { Mail, Lock, AlertCircle, Loader2, CheckCircle } from 'lucide-react';
+import { AlertCircle, Loader2, CheckCircle } from 'lucide-react';
 import '../styles/Auth.css';
 
 const Login = () => {
@@ -34,28 +34,7 @@ const Login = () => {
         navigate('/dashboard');
       }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || 'Failed to login. Please try again.';
-
-      // If error is about email verification, generate new OTP and redirect
-      if (errorMessage.toLowerCase().includes('verify your email')) {
-        try {
-          // Call resend verification API to generate new OTP
-          await authService.resendVerification(email);
-
-          // Show message that OTP has been sent
-          setError('Verification code sent to your email. Redirecting...');
-
-          // Redirect to verification page after 2 seconds
-          setTimeout(() => {
-            navigate('/verify-otp', { state: { email } });
-          }, 2000);
-        } catch (err) {
-          console.error('Failed to resend verification code:', err);
-          setError('Failed to send verification code. Please try again.');
-        }
-      } else {
-        setError(errorMessage);
-      }
+      setError(err.response?.data?.message || 'Failed to login. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -134,6 +113,12 @@ const Login = () => {
               'Sign In'
             )}
           </button>
+
+          <div style={{ textAlign: 'center', marginTop: '12px' }}>
+            <Link to="/forgot-password" className="auth-link" style={{ fontSize: '14px' }}>
+              Forgot password?
+            </Link>
+          </div>
         </form>
 
         <div className="divider">

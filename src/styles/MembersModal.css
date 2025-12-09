@@ -2,7 +2,37 @@
 .members-modal {
   max-width: 600px;
   max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Modal Body - Scrollable Container */
+.members-modal .modal-body {
   overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+  min-height: 0;
+  padding: 24px;
+}
+
+/* Custom Scrollbar for Modal Body */
+.members-modal .modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.members-modal .modal-body::-webkit-scrollbar-track {
+  background: #1d2125;
+  border-radius: 4px;
+}
+
+.members-modal .modal-body::-webkit-scrollbar-thumb {
+  background: #3d444b;
+  border-radius: 4px;
+}
+
+.members-modal .modal-body::-webkit-scrollbar-thumb:hover {
+  background: #4a5259;
 }
 
 /* Invite Section */
@@ -131,6 +161,29 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 4px;
+}
+
+/* Custom Scrollbar for Members List */
+.members-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.members-list::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 3px;
+}
+
+.members-list::-webkit-scrollbar-thumb {
+  background: #3d444b;
+  border-radius: 3px;
+}
+
+.members-list::-webkit-scrollbar-thumb:hover {
+  background: #4a5259;
 }
 
 .member-item {
@@ -141,7 +194,8 @@
   background: #282e33;
   border-radius: 8px;
   border: 1px solid #2c333a;
-  transition: all 0.2s;
+  transition: background-color 0.2s, border-color 0.2s;
+  flex-shrink: 0;
 }
 
 .member-item:hover {

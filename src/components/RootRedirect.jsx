@@ -4,20 +4,9 @@ import { useAuth } from '../hooks/useAuth';
 const RootRedirect = () => {
   const { isAuthenticated, loading } = useAuth();
 
+  // Only wait for auth initialization, don't show loader
   if (loading) {
-    return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        fontSize: '18px',
-        color: '#718096',
-        background: '#1d2125'
-      }}>
-        Loading...
-      </div>
-    );
+    return null; // Return null instead of showing loader
   }
 
   // Redirect based on authentication status

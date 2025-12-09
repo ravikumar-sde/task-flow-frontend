@@ -217,12 +217,31 @@ const Dashboard = () => {
 
       <main className="dashboard-main">
         <div className="workspaces-section">
-          <h2 className="section-title">YOUR WORKSPACES</h2>
+          <h2 className="section-title">
+            {workspaces.length > 0 ? 'YOUR WORKSPACES' : 'WORKSPACES'}
+          </h2>
 
           {loading ? (
             <div className="loading-container">
               <Loader2 size={40} className="spinner" />
               <p>Loading workspaces...</p>
+            </div>
+          ) : workspaces.length === 0 ? (
+            <div className="empty-state">
+              <div className="empty-state-icon">
+                <LayoutDashboard size={64} />
+              </div>
+              <h3 className="empty-state-title">No workspaces yet</h3>
+              <p className="empty-state-description">
+                Create your first workspace to start organizing your projects and collaborating with your team.
+              </p>
+              <button
+                className="btn btn-create-workspace-large"
+                onClick={() => setIsModalOpen(true)}
+              >
+                <Plus size={20} />
+                Create Your First Workspace
+              </button>
             </div>
           ) : (
             <div className="workspaces-list">

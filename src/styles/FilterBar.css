@@ -8,17 +8,20 @@
   border-radius: 8px;
   margin-bottom: 16px;
   backdrop-filter: blur(10px);
+  min-height: 56px;
 }
 
 .filter-bar-left {
   flex: 1;
   max-width: 400px;
+  min-width: 0;
 }
 
 .filter-bar-right {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0;
 }
 
 /* Search Box */
@@ -99,11 +102,13 @@
   font-weight: 500;
   padding-right: 8px;
   border-right: 1px solid rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
 }
 
 /* Filter Buttons */
 .filter-dropdown-wrapper {
   position: relative;
+  flex-shrink: 0;
 }
 
 .filter-btn {
@@ -118,10 +123,11 @@
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
   white-space: nowrap;
   position: relative;
   overflow: hidden;
+  min-width: fit-content;
 }
 
 .filter-btn::before {
@@ -380,10 +386,11 @@
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
   white-space: nowrap;
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .clear-filters-btn::before {

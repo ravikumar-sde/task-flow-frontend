@@ -22,6 +22,11 @@ const WorkspaceMembersModal = ({ isOpen, onClose, workspace }) => {
       setLoading(true);
       const response = await workspaceService.getWorkspaceMembers(workspace._id || workspace.id);
       console.log('Members response:', response);
+      console.log('Members data structure:', response.data);
+      // Log first member to see structure
+      if (response.data && response.data.length > 0) {
+        console.log('First member structure:', response.data[0]);
+      }
       setMembers(response.data || []);
     } catch (error) {
       console.error('Failed to fetch members:', error);
@@ -58,12 +63,20 @@ const WorkspaceMembersModal = ({ isOpen, onClose, workspace }) => {
   };
 
   const handleRoleChange = async (memberId, newRole) => {
+    console.log('Updating member role:', { memberId, newRole });
+    if (!memberId) {
+      console.error('Member ID is undefined!');
+      setError('Cannot update member role: Invalid member ID');
+      return;
+    }
+
     try {
       await workspaceService.updateMemberRole(workspace._id || workspace.id, memberId, newRole);
       await fetchMembers();
     } catch (error) {
       console.error('Failed to update member role:', error);
-      setError('Failed to update member role');
+      const errorMessage = error.response?.data?.message || error.message || 'Failed to update member role';
+      setError(errorMessage);
     }
   };
 
@@ -145,34 +158,39 @@ const WorkspaceMembersModal = ({ isOpen, onClose, workspace }) => {
               <div className="loading-state">Loading members...</div>
             ) : (
               <div className="members-list">
-                {members.map((member) => (
-                  <div key={member._id || member.userId} className="member-item">
-                    <div className="member-avatar" style={{ background: getAvatarColor(member.user?.name || member.name) }}>
-                      {getInitials(member.user?.name || member.name)}
-                    </div>
-                    <div className="member-info">
-                      <div className="member-name">
-                        {member.user?.name || member.name}
-                        {member.isCurrentUser && <span className="you-badge">(you)</span>}
+                {members.map((member) => {
+                  // Extract member ID - try multiple possible fields
+                  const memberId = member._id || member.id || member.userId || member.user?._id || member.user?.id;
+
+                  return (
+                    <div key={memberId} className="member-item">
+                      <div className="member-avatar" style={{ background: getAvatarColor(member.user?.name || member.name) }}>
+                        {getInitials(member.user?.name || member.name)}
                       </div>
-                      <div className="member-email">
-                        {member.user?.email || member.email}
-                        {member.role === 'admin' && <span className="role-badge">• Workspace admin</span>}
+                      <div className="member-info">
+                        <div className="member-name">
+                          {member.user?.name || member.name}
+                          {member.isCurrentUser && <span className="you-badge">(you)</span>}
+                        </div>
+                        <div className="member-email">
+                          {member.user?.email || member.email}
+                          {member.role === 'admin' && <span className="role-badge">• Workspace admin</span>}
+                        </div>
+                      </div>
+                      <div className="member-actions">
+                        <select
+                          className="role-select"
+                          value={member.role}
+                          onChange={(e) => handleRoleChange(memberId, e.target.value)}
+                          disabled={member.isCurrentUser}
+                        >
+                          <option value="member">Member</option>
+                          <option value="admin">Admin</option>
+                        </select>
                       </div>
                     </div>
-                    <div className="member-actions">
-                      <select
-                        className="role-select"
-                        value={member.role}
-                        onChange={(e) => handleRoleChange(member._id || member.userId, e.target.value)}
-                        disabled={member.isCurrentUser}
-                      >
-                        <option value="member">Member</option>
-                        <option value="admin">Admin</option>
-                      </select>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>

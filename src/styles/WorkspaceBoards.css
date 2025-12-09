@@ -207,6 +207,92 @@
   );
 }
 
+/* Board Card Settings */
+.board-card-settings {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 3;
+}
+
+.board-settings-btn {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.board-settings-btn:hover {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
+.board-settings-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  background: rgba(30, 30, 30, 0.98);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  min-width: 160px;
+  overflow: hidden;
+  animation: menuFadeIn 0.2s ease;
+  z-index: 10;
+}
+
+@keyframes menuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.board-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: left;
+}
+
+.board-menu-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.board-menu-item.delete {
+  color: #f87171;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.board-menu-item.delete:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
 .board-favorite {
   position: absolute;
   top: 10px;
@@ -241,6 +327,25 @@
   text-overflow: ellipsis;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   word-break: break-word;
+}
+
+.board-name-input {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 6px;
+  padding: 8px 10px;
+  outline: none;
+  width: 100%;
+  backdrop-filter: blur(8px);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.board-name-input:focus {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.6);
 }
 
 .board-description {

@@ -57,7 +57,8 @@ const workspaceService = {
 
   // Update member role
   updateMemberRole: async (workspaceId, memberId, role) => {
-    const response = await api.put(`/workspaces/${workspaceId}/members/${memberId}`, { role });
+    console.log('updateMemberRole called with:', { workspaceId, memberId, role });
+    const response = await api.patch(`/workspaces/${workspaceId}/members/${memberId}`, { role });
     return response.data;
   },
 
