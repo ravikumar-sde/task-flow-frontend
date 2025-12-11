@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Link as LinkIcon, Copy, Check, UserPlus } from 'lucide-react';
+import { X, Link as LinkIcon, Copy, Check, Key } from 'lucide-react';
 import workspaceService from '../services/workspaceService';
 import '../styles/Modal.css';
 import '../styles/MembersModal.css';
@@ -7,8 +7,10 @@ import '../styles/MembersModal.css';
 const WorkspaceMembersModal = ({ isOpen, onClose, workspace }) => {
   const [members, setMembers] = useState([]);
   const [inviteLink, setInviteLink] = useState('');
+  const [inviteCode, setInviteCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [codeCopied, setCodeCopied] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -42,8 +44,10 @@ const WorkspaceMembersModal = ({ isOpen, onClose, workspace }) => {
       setError('');
       const response = await workspaceService.generateInviteLink(workspace._id || workspace.id);
       console.log('Invite link response:', response);
-      const link = `${window.location.origin}/invite/${response.data.inviteCode}`;
+      const code = response.data.inviteCode;
+      const link = `${window.location.origin}/invite/${code}`;
       setInviteLink(link);
+      setInviteCode(code);
     } catch (error) {
       console.error('Failed to generate invite link:', error);
       setError('Failed to generate invite link');
@@ -59,6 +63,16 @@ const WorkspaceMembersModal = ({ isOpen, onClose, workspace }) => {
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
       console.error('Failed to copy link:', error);
+    }
+  };
+
+  const handleCopyCode = async () => {
+    try {
+      await navigator.clipboard.writeText(inviteCode);
+      setCodeCopied(true);
+      setTimeout(() => setCodeCopied(false), 2000);
+    } catch (error) {
+      console.error('Failed to copy code:', error);
     }
   };
 
@@ -130,14 +144,14 @@ const WorkspaceMembersModal = ({ isOpen, onClose, workspace }) => {
 
             {inviteLink && (
               <div className="invite-link-container">
-                <input 
-                  type="text" 
-                  value={inviteLink} 
-                  readOnly 
+                <input
+                  type="text"
+                  value={inviteLink}
+                  readOnly
                   className="invite-link-input"
                 />
-                <button 
-                  className="copy-link-btn" 
+                <button
+                  className="copy-link-btn"
                   onClick={handleCopyLink}
                   title="Copy link"
                 >
@@ -146,6 +160,33 @@ const WorkspaceMembersModal = ({ isOpen, onClose, workspace }) => {
               </div>
             )}
           </div>
+
+          {/* Manual Invite Code Section */}
+          {inviteCode && (
+            <div className="invite-section invite-code-section">
+              <div className="invite-header">
+                <Key size={18} />
+                <div>
+                  <h3>Or share this code</h3>
+                  <p className="invite-code-description">
+                    Users can enter this code manually to join the workspace
+                  </p>
+                </div>
+              </div>
+              <div className="invite-code-container">
+                <div className="invite-code-display">
+                  <span className="invite-code-text">{inviteCode}</span>
+                </div>
+                <button
+                  className="copy-code-btn"
+                  onClick={handleCopyCode}
+                  title="Copy code"
+                >
+                  {codeCopied ? <Check size={18} /> : <Copy size={18} />}
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Members List Section */}
           <div className="members-section">

@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Users, Settings, Loader2, LogOut, LayoutDashboard, Edit2, Trash2, ChevronDown } from 'lucide-react';
+import { Plus, Users, Settings, Loader2, LogOut, LayoutDashboard, Edit2, Trash2, ChevronDown, UserPlus } from 'lucide-react';
 import workspaceService from '../services/workspaceService';
 import boardService from '../services/boardService';
 import CreateWorkspaceModal from '../components/CreateWorkspaceModal';
 import CreateBoardModal from '../components/CreateBoardModal';
 import WorkspaceMembersModal from '../components/WorkspaceMembersModal';
 import EditWorkspaceModal from '../components/EditWorkspaceModal';
+import JoinWorkspaceModal from '../components/JoinWorkspaceModal';
 import '../styles/Dashboard.css';
 
 const Dashboard = () => {
@@ -20,6 +21,7 @@ const Dashboard = () => {
   const [showMembersModal, setShowMembersModal] = useState(false);
   const [showCreateBoardModal, setShowCreateBoardModal] = useState(false);
   const [showEditWorkspaceModal, setShowEditWorkspaceModal] = useState(false);
+  const [showJoinWorkspaceModal, setShowJoinWorkspaceModal] = useState(false);
   const [selectedWorkspace, setSelectedWorkspace] = useState(null);
   const [settingsDropdownOpen, setSettingsDropdownOpen] = useState(null);
   const settingsDropdownRef = useRef(null);
@@ -176,6 +178,11 @@ const Dashboard = () => {
     setSettingsDropdownOpen(settingsDropdownOpen === workspaceId ? null : workspaceId);
   };
 
+  const handleJoinWorkspaceSuccess = () => {
+    // Refresh workspaces list after joining
+    fetchWorkspaces();
+  };
+
   // Generate random gradient for workspace cards
   const getWorkspaceGradient = (index) => {
     const gradients = [
@@ -197,6 +204,14 @@ const Dashboard = () => {
         <div className="header-content">
           <h1>Task Flow</h1>
           <div className="user-section">
+            <button
+              className="btn btn-join-workspace"
+              onClick={() => setShowJoinWorkspaceModal(true)}
+              title="Join workspace with code"
+            >
+              <UserPlus size={18} />
+              Join Workspace
+            </button>
             <button
               className="btn btn-create-workspace"
               onClick={() => setIsModalOpen(true)}
@@ -374,6 +389,12 @@ const Dashboard = () => {
         isOpen={showMembersModal}
         onClose={() => setShowMembersModal(false)}
         workspace={selectedWorkspace}
+      />
+
+      <JoinWorkspaceModal
+        isOpen={showJoinWorkspaceModal}
+        onClose={() => setShowJoinWorkspaceModal(false)}
+        onJoinSuccess={handleJoinWorkspaceSuccess}
       />
     </div>
   );

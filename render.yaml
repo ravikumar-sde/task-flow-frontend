@@ -2,9 +2,11 @@ services:
   # Frontend - React + Vite Application
   - type: web
     name: trello-frontend
-    runtime: static
+    runtime: node
+    region: oregon
+    plan: free
     buildCommand: npm install && npm run build
-    staticPublishPath: ./dist
+    startCommand: npm start
     envVars:
       - key: NODE_VERSION
         value: 20.19.0
@@ -12,33 +14,4 @@ services:
         # Replace with your actual backend URL (without /api/v1)
         # Example: https://trello-backend-xyz.onrender.com
         value: https://task-flow-backend-ib9q.onrender.com
-    headers:
-      # Security headers
-      - path: /*
-        name: X-Frame-Options
-        value: DENY
-      - path: /*
-        name: X-Content-Type-Options
-        value: nosniff
-      - path: /*
-        name: X-XSS-Protection
-        value: 1; mode=block
-      - path: /*
-        name: Referrer-Policy
-        value: strict-origin-when-cross-origin
-      - path: /*
-        name: Permissions-Policy
-        value: geolocation=(), microphone=(), camera=()
-      # Cache control for static assets
-      - path: /assets/*
-        name: Cache-Control
-        value: public, max-age=31536000, immutable
-      - path: /vite.svg
-        name: Cache-Control
-        value: public, max-age=31536000, immutable
-    routes:
-      # SPA routing - redirect all routes to index.html
-      - type: rewrite
-        source: /*
-        destination: /index.html
 

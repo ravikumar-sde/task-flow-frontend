@@ -2,8 +2,9 @@
 	"info": {
 		"_postman_id": "trello-backend-api-collection",
 		"name": "Trello Backend API",
-		"description": "Complete API collection for Trello Backend with Authentication",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"description": "Complete API collection for Trello Backend with Authentication, Email Verification, Workspaces, Boards, Stages, Cards, and Comments",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"version": "2.0.0"
 	},
 	"item": [
 		{
@@ -34,7 +35,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"if (pm.response.code === 201 || pm.response.code === 200) {",
+									"if (pm.response.code === 201) {",
 									"    var jsonData = pm.response.json();",
 									"    if (jsonData.data && jsonData.data.token) {",
 									"        pm.environment.set('token', jsonData.data.token);",
@@ -62,7 +63,8 @@
 							"raw": "{{base_url}}/api/v1/auth/signup",
 							"host": ["{{base_url}}"],
 							"path": ["api", "v1", "auth", "signup"]
-						}
+						},
+						"description": "Register a new user account. User is automatically logged in after successful signup."
 					},
 					"response": []
 				},
@@ -101,7 +103,8 @@
 							"raw": "{{base_url}}/api/v1/auth/login",
 							"host": ["{{base_url}}"],
 							"path": ["api", "v1", "auth", "login"]
-						}
+						},
+						"description": "Login with email and password. Returns JWT token and refresh token for authentication."
 					},
 					"response": []
 				},
@@ -214,6 +217,56 @@
 					"response": []
 				},
 				{
+					"name": "Forgot Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"john@example.com\",\n  \"newPassword\": \"newpassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/auth/forgot-password",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "auth", "forgot-password"]
+						},
+						"description": "Reset password without email verification. Simple implementation - user provides email and new password. Only works for local authentication users (not OAuth users)."
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"currentPassword\": \"password123\",\n  \"newPassword\": \"newpassword456\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/auth/change-password",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "auth", "change-password"]
+						},
+						"description": "Change password for authenticated user. User must provide current password and new password. Only works for local authentication users (not OAuth users)."
+					},
+					"response": []
+				},
+				{
 					"name": "Google OAuth - Initiate",
 					"request": {
 						"method": "GET",
@@ -222,7 +275,8 @@
 							"raw": "{{base_url}}/api/v1/auth/google",
 							"host": ["{{base_url}}"],
 							"path": ["api", "v1", "auth", "google"]
-						}
+						},
+						"description": "Initiate Google OAuth authentication flow. Redirects to Google login page."
 					},
 					"response": []
 				},
@@ -235,7 +289,8 @@
 							"raw": "{{base_url}}/api/v1/auth/github",
 							"host": ["{{base_url}}"],
 							"path": ["api", "v1", "auth", "github"]
-						}
+						},
+						"description": "Initiate GitHub OAuth authentication flow. Redirects to GitHub login page."
 					},
 					"response": []
 				}
@@ -502,12 +557,13 @@
 									"value": "WORKSPACE_ID_HERE"
 								}
 							]
-						}
+						},
+						"description": "Generate an invite link for the workspace. Returns a 12-character invite code that can be shared via link or manually entered. Only admins can generate invite links."
 					},
 					"response": []
 				},
 				{
-					"name": "Join Workspace via Invite",
+					"name": "Join Workspace via Invite Link",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -526,7 +582,35 @@
 									"value": "INVITE_CODE_HERE"
 								}
 							]
-						}
+						},
+						"description": "Join a workspace by clicking on an invite link. The invite code is extracted from the URL."
+					},
+					"response": []
+				},
+				{
+					"name": "Join Workspace with Manual Code",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"inviteCode\": \"abc123XYZ789\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/workspaces/join-with-code",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "workspaces", "join-with-code"]
+						},
+						"description": "Join a workspace by manually entering the 12-character invite code. This is useful when users want to type the code instead of clicking a link."
 					},
 					"response": []
 				},

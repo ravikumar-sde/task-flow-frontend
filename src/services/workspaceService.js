@@ -43,9 +43,15 @@ const workspaceService = {
     return response.data;
   },
 
-  // Join workspace via invite
+  // Join workspace via invite link
   joinWorkspace: async (inviteCode) => {
     const response = await api.post(`/workspaces/join/${inviteCode}`);
+    return response.data;
+  },
+
+  // Join workspace with manual code entry
+  joinWorkspaceWithCode: async (inviteCode) => {
+    const response = await api.post('/workspaces/join-with-code', { inviteCode });
     return response.data;
   },
 

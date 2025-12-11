@@ -38,6 +38,25 @@
   gap: 12px;
 }
 
+.btn-join-workspace {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #10b981;
+  border: none;
+  border-radius: 6px;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-join-workspace:hover {
+  background: #059669;
+}
+
 .btn-create-workspace {
   display: flex;
   align-items: center;
@@ -439,6 +458,23 @@
   .user-section {
     width: 100%;
     justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .btn-join-workspace,
+  .btn-create-workspace {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+
+  .btn-join-workspace span,
+  .btn-create-workspace span {
+    display: none;
+  }
+
+  .btn-join-workspace svg,
+  .btn-create-workspace svg {
+    margin: 0;
   }
 
   .dashboard-main {
