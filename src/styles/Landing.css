@@ -193,14 +193,17 @@
   margin-bottom: 60px;
 }
 
-.section-title {
+.section-header .section-title {
   font-size: 48px;
   font-weight: 700;
   margin-bottom: 16px;
   color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.section-description {
+.section-header .section-description {
   font-size: 18px;
   color: #cbd5e1;
   max-width: 600px;
@@ -411,7 +414,7 @@
     font-size: 16px;
   }
 
-  .section-title {
+  .landing-container .section-title {
     font-size: 32px;
   }
 

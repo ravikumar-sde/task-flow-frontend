@@ -11,7 +11,7 @@ const Landing = () => {
     },
     {
       icon: <Users size={24} />,
-      title: 'Team Collaboration',
+      title: 'Invite team members',
       description: 'Work together seamlessly with your team in real-time'
     },
     {
@@ -24,7 +24,6 @@ const Landing = () => {
   const benefits = [
     'Organize tasks with boards and lists',
     'Drag & drop interface',
-    'Real-time collaboration',
     'Workspace management',
     'Invite team members',
     'Track project progress'
