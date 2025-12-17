@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
-import RootRedirect from './components/RootRedirect';
+import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
@@ -83,7 +83,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/" element={<RootRedirect />} />
+          <Route path="/" element={<Landing />} />
         </Routes>
       </AuthProvider>
     </Router>
