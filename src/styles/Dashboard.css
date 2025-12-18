@@ -455,10 +455,15 @@
     align-items: flex-start;
   }
 
+  .dashboard-header h1 {
+    font-size: 18px;
+  }
+
   .user-section {
     width: 100%;
     justify-content: space-between;
     flex-wrap: wrap;
+    gap: 8px;
   }
 
   .btn-join-workspace,
@@ -477,6 +482,16 @@
     margin: 0;
   }
 
+  .user-info {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .btn-logout {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+
   .dashboard-main {
     padding: 20px 16px;
   }
@@ -487,6 +502,20 @@
     gap: 12px;
   }
 
+  .workspace-title-section {
+    gap: 10px;
+  }
+
+  .workspace-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .workspace-title {
+    font-size: 15px;
+  }
+
   .workspace-header-actions {
     width: 100%;
     flex-wrap: wrap;
@@ -495,10 +524,26 @@
   .workspace-header-btn {
     flex: 1;
     min-width: 100px;
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .workspace-header-btn span {
+    display: none;
   }
 
   .workspace-boards-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+
+  .board-card-mini {
+    height: 90px;
+    padding: 10px;
+  }
+
+  .board-card-title {
+    font-size: 13px;
   }
 
   .empty-state {
@@ -527,5 +572,134 @@
   .btn-create-workspace-large {
     padding: 12px 24px;
     font-size: 15px;
+  }
+
+  .settings-dropdown {
+    right: auto;
+    left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-header {
+    padding: 10px 12px;
+  }
+
+  .header-content {
+    gap: 10px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 16px;
+  }
+
+  .user-section {
+    gap: 6px;
+  }
+
+  .btn-join-workspace,
+  .btn-create-workspace,
+  .btn-logout {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .user-info {
+    font-size: 12px;
+    padding: 5px 8px;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dashboard-main {
+    padding: 16px 12px;
+  }
+
+  .section-title {
+    font-size: 12px;
+  }
+
+  .workspaces-list {
+    gap: 24px;
+  }
+
+  .workspace-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .workspace-title {
+    font-size: 14px;
+  }
+
+  .workspace-header-btn {
+    min-width: 80px;
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+
+  .workspace-header-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Fix dropdown positioning on mobile - prevent overflow */
+  .settings-dropdown {
+    position: fixed;
+    top: auto;
+    right: 12px;
+    left: 12px;
+    max-width: calc(100vw - 24px);
+    min-width: auto;
+  }
+
+  .workspace-boards-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .board-card-mini {
+    height: 80px;
+    padding: 8px;
+  }
+
+  .board-card-title {
+    font-size: 12px;
+  }
+
+  .create-board-content span {
+    font-size: 13px;
+  }
+
+  .empty-state {
+    padding: 40px 16px;
+  }
+
+  .empty-state-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .empty-state-icon svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .empty-state-title {
+    font-size: 18px;
+  }
+
+  .empty-state-description {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .btn-create-workspace-large {
+    padding: 10px 20px;
+    font-size: 14px;
+    width: 100%;
   }
 }

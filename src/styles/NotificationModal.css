@@ -196,8 +196,23 @@
     margin: 20px;
   }
 
+  .notification-close-btn {
+    width: 30px;
+    height: 30px;
+  }
+
+  .notification-close-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
   .notification-content {
     padding: 40px 24px 24px;
+  }
+
+  .notification-icon svg {
+    width: 56px;
+    height: 56px;
   }
 
   .notification-title {
@@ -206,14 +221,70 @@
 
   .notification-message {
     font-size: 14px;
+    margin-bottom: 24px;
   }
 
   .notification-actions {
     flex-direction: column-reverse;
+    gap: 10px;
   }
 
   .notification-btn {
     width: 100%;
+    padding: 11px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .notification-modal {
+    max-width: 95%;
+    margin: 16px;
+    border-radius: 12px;
+  }
+
+  .notification-close-btn {
+    top: 12px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .notification-close-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .notification-content {
+    padding: 36px 20px 20px;
+  }
+
+  .notification-icon-wrapper {
+    margin-bottom: 16px;
+  }
+
+  .notification-icon svg {
+    width: 48px;
+    height: 48px;
+  }
+
+  .notification-title {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .notification-message {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .notification-actions {
+    gap: 8px;
+  }
+
+  .notification-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    min-width: auto;
   }
 }
 

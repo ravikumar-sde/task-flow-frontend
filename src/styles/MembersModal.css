@@ -368,3 +368,247 @@
   font-size: 14px;
 }
 
+/* Responsive */
+@media (max-width: 768px) {
+  .members-modal {
+    max-width: 95%;
+  }
+
+  .members-modal .modal-body {
+    padding: 20px;
+  }
+
+  .invite-section {
+    padding: 14px;
+    margin-bottom: 20px;
+  }
+
+  .invite-header h3 {
+    font-size: 13px;
+  }
+
+  .create-link-btn {
+    font-size: 13px;
+  }
+
+  .invite-link-input {
+    font-size: 12px;
+    padding: 7px 10px;
+  }
+
+  .copy-link-btn {
+    padding: 7px 10px;
+  }
+
+  .invite-code-text {
+    font-size: 16px;
+    letter-spacing: 2px;
+  }
+
+  .copy-code-btn {
+    padding: 7px 10px;
+  }
+
+  .members-section {
+    margin-top: 20px;
+  }
+
+  .members-header {
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+  }
+
+  .members-header h3 {
+    font-size: 13px;
+  }
+
+  .members-count {
+    font-size: 11px;
+  }
+
+  .members-list {
+    max-height: 350px;
+  }
+
+  .member-item {
+    padding: 10px;
+  }
+
+  .member-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 13px;
+  }
+
+  .member-name {
+    font-size: 13px;
+  }
+
+  .member-email {
+    font-size: 11px;
+  }
+
+  .role-select {
+    padding: 7px 28px 7px 10px;
+    font-size: 12px;
+  }
+
+  .error-message {
+    padding: 10px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .members-modal {
+    max-width: 100%;
+  }
+
+  .members-modal .modal-body {
+    padding: 16px;
+  }
+
+  .invite-section {
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+
+  .invite-header {
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .invite-header svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .invite-header h3 {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  .create-link-btn {
+    font-size: 12px;
+  }
+
+  .invite-code-description {
+    font-size: 11px;
+  }
+
+  .invite-link-container,
+  .invite-code-container {
+    padding: 3px;
+  }
+
+  .invite-link-input {
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+
+  .copy-link-btn {
+    padding: 6px 8px;
+    min-width: 36px;
+  }
+
+  .copy-link-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .invite-code-display {
+    padding: 10px 12px;
+  }
+
+  .invite-code-text {
+    font-size: 14px;
+    letter-spacing: 1.5px;
+  }
+
+  .copy-code-btn {
+    padding: 6px 8px;
+    min-width: 36px;
+  }
+
+  .copy-code-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .members-section {
+    margin-top: 16px;
+  }
+
+  .members-header {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+  }
+
+  .members-header svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .members-header h3 {
+    font-size: 12px;
+  }
+
+  .members-count {
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+
+  .members-list {
+    max-height: 300px;
+    gap: 6px;
+  }
+
+  .member-item {
+    padding: 8px;
+    gap: 10px;
+  }
+
+  .member-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .member-info {
+    min-width: 0;
+  }
+
+  .member-name {
+    font-size: 12px;
+    margin-bottom: 3px;
+  }
+
+  .you-badge {
+    font-size: 11px;
+  }
+
+  .member-email {
+    font-size: 10px;
+  }
+
+  .role-badge {
+    font-size: 11px;
+  }
+
+  .role-select {
+    padding: 6px 24px 6px 8px;
+    font-size: 11px;
+    background-position: right 8px center;
+  }
+
+  .loading-state {
+    padding: 24px;
+    font-size: 13px;
+  }
+
+  .error-message {
+    padding: 8px;
+    font-size: 12px;
+  }
+}
+

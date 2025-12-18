@@ -1099,9 +1099,9 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .board-lists {
-    padding: 12px;
+@media (max-width: 1024px) {
+  .board-sidebar {
+    width: 240px;
   }
 
   .board-list,
@@ -1109,13 +1109,113 @@
     width: 260px;
     min-width: 260px;
   }
+}
+
+@media (max-width: 768px) {
+  .board-header {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+  }
+
+  .board-header-left {
+    gap: 12px;
+    flex: 1;
+    min-width: 100%;
+  }
+
+  .board-back-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .board-title {
+    font-size: 18px;
+  }
+
+  .workspace-name-badge {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  .board-header-right {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .board-header-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .board-header-btn span {
+    display: none;
+  }
+
+  /* Fix dropdown positioning on tablet */
+  .board-settings-dropdown {
+    right: 0;
+    left: auto;
+    min-width: 180px;
+  }
+
+  .list-menu-dropdown {
+    right: 0;
+    left: auto;
+    min-width: 140px;
+  }
+
+  .board-lists {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .board-list,
+  .add-list-btn {
+    width: 240px;
+    min-width: 240px;
+  }
+
+  .board-list {
+    max-height: calc(100vh - 160px);
+  }
+
+  .list-header {
+    padding: 10px;
+  }
+
+  .list-title {
+    font-size: 13px;
+  }
+
+  .card-item {
+    padding: 8px 10px;
+  }
+
+  .card-title {
+    font-size: 13px;
+  }
+
+  .card-badge {
+    font-size: 11px;
+  }
+
+  .card-priority-label {
+    font-size: 10px;
+    padding: 3px 16px;
+  }
 
   .board-sidebar {
-    width: 220px;
+    width: 200px;
   }
 
   .sidebar-toggle-open {
     padding: 8px 4px;
+  }
+
+  .sidebar-board-name {
+    font-size: 13px;
   }
 
   /* Card responsive adjustments */
@@ -1127,5 +1227,254 @@
 
   .card-created-time {
     align-self: flex-start;
+  }
+
+  .creator-avatar {
+    width: 16px;
+    height: 16px;
+    font-size: 8px;
+  }
+
+  .creator-name {
+    font-size: 9px;
+  }
+
+  .card-created-time {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 480px) {
+  .board-header {
+    padding: 10px 12px;
+  }
+
+  .board-header-left {
+    gap: 8px;
+  }
+
+  .board-back-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .board-title {
+    font-size: 16px;
+  }
+
+  .board-title-input {
+    font-size: 16px;
+    min-width: 200px;
+  }
+
+  .workspace-name-badge {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+
+  .board-header-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .board-header-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Fix dropdown positioning on mobile - prevent overflow */
+  .board-settings-dropdown {
+    position: fixed;
+    top: auto;
+    right: 12px;
+    left: 12px;
+    max-width: calc(100vw - 24px);
+    min-width: auto;
+  }
+
+  .list-menu-dropdown {
+    position: fixed;
+    top: auto;
+    right: 12px;
+    left: 12px;
+    max-width: calc(100vw - 24px);
+    min-width: auto;
+  }
+
+  .board-lists {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .board-list,
+  .add-list-btn {
+    width: 220px;
+    min-width: 220px;
+  }
+
+  .board-list {
+    max-height: calc(100vh - 140px);
+  }
+
+  .list-header {
+    padding: 8px;
+  }
+
+  .list-title {
+    font-size: 12px;
+  }
+
+  .list-menu-btn {
+    padding: 3px;
+  }
+
+  .list-menu-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .list-cards {
+    padding: 6px;
+  }
+
+  .card-item {
+    padding: 8px;
+    margin-bottom: 6px;
+  }
+
+  .card-title {
+    font-size: 12px;
+  }
+
+  .card-badge {
+    font-size: 10px;
+    padding: 2px 5px;
+  }
+
+  .card-priority-label {
+    font-size: 9px;
+    padding: 3px 12px;
+  }
+
+  .list-footer {
+    padding: 6px;
+  }
+
+  .add-card-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .add-card-input {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .btn-add-card {
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+
+  .add-list-btn {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .add-list-input {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .btn-add-list {
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+
+  /* Hide sidebar on mobile by default */
+  .board-sidebar {
+    position: fixed;
+    left: -100%;
+    top: 0;
+    bottom: 0;
+    width: 240px;
+    z-index: 100;
+    transition: left 0.3s ease;
+  }
+
+  .board-sidebar.open {
+    left: 0;
+  }
+
+  .sidebar-toggle-open {
+    padding: 10px 6px;
+  }
+
+  .sidebar-header {
+    padding: 12px;
+  }
+
+  .workspace-avatar-small {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  .workspace-name-small {
+    font-size: 13px;
+  }
+
+  .sidebar-boards {
+    padding: 12px;
+  }
+
+  .sidebar-section-title {
+    font-size: 11px;
+  }
+
+  .sidebar-board-item {
+    padding: 6px 10px;
+  }
+
+  .sidebar-board-color {
+    width: 28px;
+    height: 20px;
+  }
+
+  .sidebar-board-name {
+    font-size: 12px;
+  }
+
+  .card-footer {
+    padding-top: 4px;
+    margin-top: 4px;
+  }
+
+  .creator-avatar {
+    width: 14px;
+    height: 14px;
+    font-size: 7px;
+  }
+
+  .creator-name,
+  .card-created-time {
+    font-size: 8px;
+  }
+}
+
+/* Touch devices - disable hover effects */
+@media (hover: none) and (pointer: coarse) {
+  .board-list:hover {
+    transform: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .card-item:hover {
+    transform: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .add-list-btn:hover,
+  .add-card-btn:hover {
+    transform: none;
   }
 }

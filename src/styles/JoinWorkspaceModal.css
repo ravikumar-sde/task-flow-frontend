@@ -111,6 +111,33 @@
 }
 
 /* Responsive */
+@media (max-width: 768px) {
+  .join-workspace-modal {
+    max-width: 95%;
+  }
+
+  .modal-header-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .modal-header-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .invite-code-input {
+    font-size: 15px;
+    letter-spacing: 1.5px;
+  }
+
+  .error-message,
+  .success-message {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+}
+
 @media (max-width: 600px) {
   .join-workspace-modal {
     max-width: 90%;
@@ -130,6 +157,49 @@
   .invite-code-input {
     font-size: 14px;
     letter-spacing: 1px;
+  }
+
+  .error-message,
+  .success-message {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .join-workspace-modal {
+    max-width: 100%;
+    margin: 16px;
+  }
+
+  .modal-header-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .modal-header-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .invite-code-input {
+    font-size: 13px;
+    letter-spacing: 1px;
+    padding: 10px 12px;
+  }
+
+  .error-message,
+  .success-message {
+    padding: 8px 10px;
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  .error-message svg,
+  .success-message svg {
+    width: 14px;
+    height: 14px;
   }
 }
 

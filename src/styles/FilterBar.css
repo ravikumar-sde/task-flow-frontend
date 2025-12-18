@@ -446,6 +446,8 @@
   .filter-bar {
     flex-direction: column;
     align-items: stretch;
+    padding: 10px 12px;
+    gap: 12px;
   }
 
   .filter-bar-left {
@@ -454,10 +456,186 @@
 
   .filter-bar-right {
     flex-wrap: wrap;
+    gap: 6px;
   }
 
   .filter-icon-wrapper {
     display: none;
+  }
+
+  .search-box {
+    padding: 7px 10px;
+  }
+
+  .search-input {
+    font-size: 13px;
+  }
+
+  .filter-btn {
+    padding: 7px 10px;
+    font-size: 12px;
+    gap: 5px;
+  }
+
+  .filter-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .filter-count {
+    min-width: 16px;
+    height: 16px;
+    font-size: 10px;
+  }
+
+  .clear-filters-btn {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+
+  .clear-filters-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .filter-dropdown {
+    left: 0;
+    right: 0;
+    min-width: auto;
+  }
+
+  .filter-dropdown-header {
+    padding: 10px 14px;
+    font-size: 12px;
+  }
+
+  .filter-dropdown-content {
+    padding: 6px;
+  }
+
+  .filter-checkbox-item {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .filter-option-btn {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .member-avatar-small {
+    width: 22px;
+    height: 22px;
+    font-size: 10px;
+  }
+
+  .label-color-indicator {
+    width: 28px;
+    height: 7px;
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-bar {
+    padding: 8px 10px;
+    gap: 10px;
+  }
+
+  .search-box {
+    padding: 6px 8px;
+  }
+
+  .search-input {
+    font-size: 12px;
+  }
+
+  .search-box svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .filter-bar-right {
+    gap: 5px;
+  }
+
+  .filter-btn {
+    padding: 6px 8px;
+    font-size: 11px;
+    gap: 4px;
+  }
+
+  .filter-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .filter-count {
+    min-width: 14px;
+    height: 14px;
+    font-size: 9px;
+    padding: 0 4px;
+  }
+
+  .clear-filters-btn {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+
+  .clear-filters-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .filter-dropdown-header {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+
+  .filter-dropdown-content {
+    padding: 4px;
+    max-height: 250px;
+  }
+
+  .filter-checkbox-item {
+    padding: 7px 8px;
+    font-size: 12px;
+  }
+
+  .filter-checkbox-item input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+  }
+
+  .filter-option-btn {
+    padding: 7px 8px;
+    font-size: 12px;
+  }
+
+  .filter-empty {
+    padding: 12px;
+    font-size: 12px;
+  }
+
+  .member-avatar-small {
+    width: 20px;
+    height: 20px;
+    font-size: 9px;
+  }
+
+  .label-color-indicator {
+    width: 24px;
+    height: 6px;
+  }
+
+  /* Fix dropdown positioning on mobile - prevent overflow */
+  .filter-dropdown {
+    position: fixed;
+    top: auto;
+    right: 12px;
+    left: 12px;
+    max-width: calc(100vw - 24px);
+    min-width: auto;
+    transform-origin: center;
   }
 }
 

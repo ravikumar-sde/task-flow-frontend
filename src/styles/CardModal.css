@@ -118,6 +118,11 @@
 
 /* Responsive: Stack on smaller screens */
 @media (max-width: 1024px) {
+  .card-modal {
+    width: 98%;
+    max-width: 900px;
+  }
+
   .card-modal-content {
     grid-template-columns: 1fr;
   }
@@ -131,6 +136,560 @@
 
   .card-metadata {
     grid-template-columns: 1fr;
+  }
+
+  .card-info-row {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-modal {
+    width: 100%;
+    height: 95vh;
+    border-radius: 8px;
+  }
+
+  .card-modal-header {
+    padding: 16px 20px;
+  }
+
+  .card-title-input {
+    font-size: 18px;
+    padding: 6px 10px;
+  }
+
+  .card-stage-info {
+    font-size: 13px;
+    margin-left: 10px;
+  }
+
+  .card-modal-body {
+    padding: 20px;
+  }
+
+  .card-modal-content {
+    gap: 20px;
+  }
+
+  .card-modal-left {
+    gap: 20px;
+  }
+
+  .card-modal-right {
+    padding-top: 20px;
+    gap: 14px;
+  }
+
+  .section-title {
+    font-size: 11px;
+  }
+
+  .card-info-row {
+    gap: 12px;
+    padding: 12px 0;
+  }
+
+  .info-row-label {
+    font-size: 11px;
+  }
+
+  .assigned-member-avatar .member-avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .add-member-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .label-badge-inline {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+
+  .add-label-btn {
+    width: 28px;
+    height: 24px;
+  }
+
+  .date-badge-inline {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+
+  .add-date-btn-inline {
+    width: 28px;
+    height: 24px;
+  }
+
+  .description-textarea {
+    min-height: 80px;
+    font-size: 13px;
+  }
+
+  .description-text {
+    font-size: 13px;
+  }
+
+  .card-metadata {
+    padding: 16px;
+  }
+
+  .metadata-item {
+    padding: 10px;
+  }
+
+  .metadata-label {
+    font-size: 10px;
+  }
+
+  .metadata-value {
+    font-size: 13px;
+  }
+
+  .metadata-value .member-avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .comment-form {
+    margin-bottom: 14px;
+  }
+
+  .comment-input {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .comments-list {
+    gap: 14px;
+  }
+
+  .comment-item {
+    padding: 10px;
+  }
+
+  .author-name {
+    font-size: 12px;
+  }
+
+  .comment-time {
+    font-size: 10px;
+  }
+
+  .comment-text {
+    font-size: 12px;
+  }
+
+  .card-modal-footer {
+    padding: 14px 20px;
+  }
+
+  .footer-actions {
+    gap: 10px;
+  }
+
+  .btn-save,
+  .btn-delete {
+    padding: 9px 18px;
+    font-size: 13px;
+  }
+
+  .action-btn {
+    padding: 7px 14px;
+    font-size: 11px;
+  }
+
+  .labels-dropdown-panel {
+    width: 280px;
+  }
+
+  .member-dropdown {
+    min-width: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-modal {
+    width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .card-modal-header {
+    padding: 12px 16px;
+  }
+
+  .card-title-input {
+    font-size: 16px;
+    padding: 6px 8px;
+  }
+
+  .card-stage-info {
+    font-size: 12px;
+    margin-left: 8px;
+  }
+
+  .modal-close-btn {
+    padding: 6px;
+  }
+
+  .modal-close-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .card-modal-body {
+    padding: 16px;
+  }
+
+  .card-modal-content {
+    gap: 16px;
+  }
+
+  .card-modal-left {
+    gap: 16px;
+  }
+
+  .card-modal-right {
+    padding-top: 16px;
+    gap: 12px;
+  }
+
+  .section-title {
+    font-size: 10px;
+  }
+
+  .section-title svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .card-info-row {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 0;
+  }
+
+  .info-row-section {
+    width: 100%;
+  }
+
+  .info-row-label {
+    font-size: 10px;
+  }
+
+  .assigned-members-inline {
+    flex-wrap: wrap;
+  }
+
+  .assigned-member-avatar .member-avatar {
+    width: 26px;
+    height: 26px;
+    font-size: 11px;
+  }
+
+  .add-member-btn {
+    width: 26px;
+    height: 26px;
+  }
+
+  .add-member-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .labels-inline {
+    flex-wrap: wrap;
+  }
+
+  .label-badge-inline {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+
+  .add-label-btn {
+    width: 26px;
+    height: 22px;
+  }
+
+  .add-label-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .date-badge-inline {
+    padding: 4px 8px;
+    font-size: 10px;
+    gap: 6px;
+  }
+
+  .date-badge-inline svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .add-date-btn-inline {
+    width: 26px;
+    height: 22px;
+  }
+
+  .add-date-btn-inline svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .card-actions {
+    gap: 6px;
+  }
+
+  .action-btn {
+    padding: 6px 12px;
+    font-size: 10px;
+    gap: 6px;
+  }
+
+  .action-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .badge-count {
+    padding: 1px 5px;
+    font-size: 10px;
+  }
+
+  .labels-dropdown-panel {
+    width: calc(100vw - 32px);
+    max-width: 280px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .labels-dropdown-panel .dropdown-header h3 {
+    font-size: 13px;
+  }
+
+  .label-search-input {
+    padding: 7px 10px;
+    font-size: 13px;
+  }
+
+  .labels-section-title {
+    font-size: 11px;
+  }
+
+  .label-color-box {
+    padding: 7px 10px;
+    font-size: 13px;
+  }
+
+  .create-new-label-btn,
+  .colorblind-mode-btn {
+    padding: 7px 10px;
+    font-size: 13px;
+  }
+
+  .member-dropdown {
+    width: calc(100vw - 32px);
+    max-width: 260px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .member-dropdown h4 {
+    font-size: 13px;
+  }
+
+  .member-action-btn {
+    padding: 3px 8px;
+    font-size: 11px;
+  }
+
+  .member-item {
+    padding: 6px 10px;
+  }
+
+  .member-avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .member-name {
+    font-size: 13px;
+  }
+
+  .member-email {
+    font-size: 11px;
+  }
+
+  .priority-dropdown,
+  .date-picker-dropdown {
+    width: calc(100vw - 32px);
+    max-width: 240px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .priority-dropdown-item {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .date-picker-dropdown .date-input {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .description-hint {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .description-textarea {
+    padding: 10px;
+    min-height: 70px;
+    font-size: 13px;
+  }
+
+  .description-display {
+    padding: 10px;
+    min-height: 70px;
+  }
+
+  .description-text {
+    font-size: 12px;
+  }
+
+  .description-actions .btn-save,
+  .description-actions .btn-cancel {
+    padding: 7px 14px;
+    font-size: 13px;
+  }
+
+  .card-metadata {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .metadata-item {
+    padding: 8px;
+  }
+
+  .metadata-label {
+    font-size: 9px;
+  }
+
+  .metadata-value {
+    font-size: 12px;
+  }
+
+  .metadata-value .member-avatar {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+  }
+
+  .comment-form {
+    margin-bottom: 12px;
+  }
+
+  .comment-input {
+    padding: 8px;
+    font-size: 13px;
+    min-height: 60px;
+  }
+
+  .comments-list {
+    gap: 12px;
+  }
+
+  .comment-item {
+    padding: 8px;
+  }
+
+  .comment-header {
+    margin-bottom: 6px;
+  }
+
+  .comment-author {
+    gap: 6px;
+  }
+
+  .comment-author .member-avatar {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+  }
+
+  .author-name {
+    font-size: 11px;
+  }
+
+  .comment-time {
+    font-size: 9px;
+  }
+
+  .comment-text {
+    font-size: 11px;
+  }
+
+  .edit-comment-btn,
+  .delete-comment-btn {
+    padding: 3px;
+  }
+
+  .edit-comment-btn svg,
+  .delete-comment-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .comment-edit-actions .btn-save,
+  .comment-edit-actions .btn-cancel {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  .no-comments {
+    padding: 24px 16px;
+    font-size: 12px;
+  }
+
+  .no-comments svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .comments-disabled {
+    padding: 12px;
+  }
+
+  .comments-disabled p {
+    font-size: 13px;
+  }
+
+  .card-modal-footer {
+    padding: 12px 16px;
+  }
+
+  .footer-actions {
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+
+  .btn-save,
+  .btn-delete {
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 13px;
+    justify-content: center;
   }
 }
 
